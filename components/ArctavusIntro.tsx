@@ -40,6 +40,7 @@ export default function ArctavusIntro() {
         style={{
           width: "min(420px, 80vw)",
           height: "auto",
+          mixBlendMode: "screen",
         }}
       >
         <source src="/logo-intro.webm" type="video/webm" />
