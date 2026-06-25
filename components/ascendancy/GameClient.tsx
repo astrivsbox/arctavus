@@ -11,6 +11,7 @@ import ExecutivePhase from "./ExecutivePhase";
 import GameOver from "./GameOver";
 import OmenBoard from "./OmenBoard";
 import RoleCard from "./RoleCard";
+import MusicPlayer from "./MusicPlayer";
 
 export default function GameClient() {
   const [state, setState] = useState<GameState | null>(null);
@@ -157,6 +158,8 @@ export default function GameClient() {
         <div className="flex items-center justify-between mb-6">
           <h1 className="font-black text-2xl tracking-tight" style={{ color: "#c8a96e" }}>ASCENDANCY</h1>
           <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+            <MusicPlayer playing={state.phase !== "lobby"} />
             {priv && (
               <button
                 onClick={() => setShowRole(true)}
@@ -169,6 +172,7 @@ export default function GameClient() {
             <div className="text-xs font-black tracking-widest" style={{ color: "#3a2a1a" }}>
               {state.code}
             </div>
+          </div>
           </div>
         </div>
 
