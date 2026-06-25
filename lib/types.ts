@@ -16,6 +16,7 @@ export type Player = {
   isAlive: boolean;
   isAscendant: boolean;
   isHighPriest: boolean;
+  isBot: boolean;
 };
 
 export type GameState = {
