@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { getSocket } from "@/lib/socket";
 import type { GameState, PrivateInfo, OmenCard } from "@/lib/types";
+import { playGoodOmen, playBadOmen } from "@/lib/sounds";
 import Lobby from "./Lobby";
 import NominationPhase from "./NominationPhase";
 import ElectionPhase from "./ElectionPhase";
@@ -26,6 +27,25 @@ export default function GameClient() {
   const [notification, setNotification] = useState("");
   const [showRole, setShowRole] = useState(false);
   const roleRevealedRef = useRef(false);
+  const prevGoodRef = useRef<number | null>(null);
+  const prevBadRef = useRef<number | null>(null);
+
+  // Play sound when an omen is enacted (skip on initial load)
+  useEffect(() => {
+    if (!state || state.phase === "lobby") {
+      prevGoodRef.current = null;
+      prevBadRef.current = null;
+      return;
+    }
+    if (prevGoodRef.current !== null && state.goodOmensEnacted > prevGoodRef.current) {
+      playGoodOmen();
+    }
+    if (prevBadRef.current !== null && state.badOmensEnacted > prevBadRef.current) {
+      playBadOmen();
+    }
+    prevGoodRef.current = state.goodOmensEnacted;
+    prevBadRef.current = state.badOmensEnacted;
+  }, [state?.goodOmensEnacted, state?.badOmensEnacted, state?.phase]);
 
   const notify = useCallback((msg: string) => {
     setNotification(msg);
