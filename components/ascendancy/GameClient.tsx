@@ -15,6 +15,7 @@ import RoleCard from "./RoleCard";
 import MusicPlayer from "./MusicPlayer";
 import AffiliationButton from "./AffiliationButton";
 import ZealotLegend from "./ZealotLegend";
+import PlayerTable from "./PlayerTable";
 
 export default function GameClient() {
   const [state, setState] = useState<GameState | null>(null);
@@ -198,6 +199,11 @@ export default function GameClient() {
         {/* Omen board */}
         {state.phase !== "lobby" && (
           <OmenBoard good={state.goodOmensEnacted} bad={state.badOmensEnacted} tracker={state.electionTracker} />
+        )}
+
+        {/* Round table player tracker */}
+        {state.phase !== "lobby" && state.phase !== "game_over" && (
+          <PlayerTable state={state} />
         )}
 
         {error && (
