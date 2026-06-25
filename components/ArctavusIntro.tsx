@@ -40,6 +40,7 @@ export default function ArctavusIntro() {
         style={{
           width: "min(420px, 80vw)",
           height: "auto",
+          filter: "invert(1)",
         }}
       >
         <source src="/logo-intro.webm" type="video/webm" />
