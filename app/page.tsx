@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const games = [
   {
@@ -17,10 +18,16 @@ export default function Home() {
       style={{ background: "#0a0a0a" }}
     >
       <div className="w-full max-w-2xl">
-        <h1 className="font-black text-5xl tracking-tight text-white mb-1">ARCTAVUS</h1>
-        <p className="text-xs tracking-widest uppercase mb-12" style={{ color: "#5a4a3a" }}>
-          Game Portal
-        </p>
+        <div className="mb-10">
+          <Image
+            src="/arctavus-logo.png"
+            alt="Arctavus Entertainment"
+            width={420}
+            height={175}
+            priority
+            style={{ filter: "invert(1)", width: "100%", maxWidth: 420, height: "auto" }}
+          />
+        </div>
 
         <div className="space-y-3">
           {games.map(game => (
