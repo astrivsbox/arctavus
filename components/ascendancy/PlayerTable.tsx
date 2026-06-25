@@ -14,6 +14,11 @@ function seatPos(i: number, n: number) {
   };
 }
 
+const VOTE_CONFIG = {
+  faith: { label: "Faith", color: "#4a8a6e", bg: "#0a1a10" },
+  doubt: { label: "Doubt", color: "#c84a3e", bg: "#1a0808" },
+};
+
 export default function PlayerTable({ state }: { state: GameState }) {
   const players = state.players;
   const n = players.length;
@@ -90,6 +95,7 @@ export default function PlayerTable({ state }: { state: GameState }) {
             const isAsc = p.isAscendant;
             const isHP = p.isHighPriest;
             const isNom = p.id === state.nominatedHighPriest && !isHP;
+            const vote = state.lastVotes?.[p.id] as "faith" | "doubt" | undefined;
 
             const borderColor = isAsc ? "#c8a96e"
               : isHP ? "#4a8a6e"
@@ -173,6 +179,22 @@ export default function PlayerTable({ state }: { state: GameState }) {
                     lineHeight: 1.2,
                   }}>
                     {label}
+                  </p>
+                )}
+
+                {/* Vote indicator from last election */}
+                {vote && (
+                  <p style={{
+                    fontSize: 7,
+                    fontWeight: 900,
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                    color: VOTE_CONFIG[vote].color,
+                    whiteSpace: "nowrap",
+                    lineHeight: 1.2,
+                    marginTop: 1,
+                  }}>
+                    {VOTE_CONFIG[vote].label}
                   </p>
                 )}
               </div>

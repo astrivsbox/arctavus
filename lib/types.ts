@@ -37,6 +37,8 @@ export type GameState = {
   votesCast: number;
   totalAlive: number;
   votes?: Record<string, "faith" | "doubt">;
+  lastVotes?: Record<string, "faith" | "doubt">;
+  revealedRoles?: Record<string, Role>;
 };
 
 export type PrivateInfo = {

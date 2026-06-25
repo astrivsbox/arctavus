@@ -42,12 +42,30 @@ export default function GameOver({ state, myId, priv }: { state: GameState; myId
       <div className="space-y-2 mt-4">
         <p className="text-xs tracking-widest uppercase mb-3" style={{ color: "#5a4a3a" }}>All Roles Revealed</p>
         {state.players.map(p => {
+          const role = state.revealedRoles?.[p.id];
+          const roleLabel = role === "prophet" ? "The Prophet"
+            : role === "zealot" ? "Zealot"
+            : role === "warden" ? "Warden"
+            : null;
+          const roleColor = role === "warden" ? "#4a8a6e" : "#c84a3e";
+
           return (
             <div key={p.id} className="flex items-center justify-between px-4 py-3 rounded"
-              style={{ background: "#0f0e0c", border: "1px solid #2a2010", opacity: p.isAlive ? 1 : 0.4 }}>
+              style={{ background: "#0f0e0c", border: "1px solid #2a2010", opacity: p.isAlive ? 1 : 0.5 }}>
               <span className="font-bold text-sm" style={{ color: "#e8d5b0" }}>
-                {p.name} {!p.isAlive && <span style={{ color: "#5a4a3a" }}>(executed)</span>}
+                {p.name}
+                {!p.isAlive && <span className="ml-2 text-xs" style={{ color: "#5a4a3a" }}>(executed)</span>}
               </span>
+              {roleLabel && (
+                <span className="text-xs font-black tracking-widest uppercase px-2 py-1 rounded"
+                  style={{
+                    color: roleColor,
+                    background: role === "warden" ? "#0a1a10" : "#1a0808",
+                    border: `1px solid ${roleColor}`,
+                  }}>
+                  {roleLabel}
+                </span>
+              )}
             </div>
           );
         })}
