@@ -11,7 +11,7 @@ export function playGoodOmen() {
     pingGain.connect(ctx.destination);
     ping.type = "sine";
     ping.frequency.value = 2200;
-    pingGain.gain.setValueAtTime(0.18, ctx.currentTime);
+    pingGain.gain.setValueAtTime(0.10, ctx.currentTime);
     pingGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.4);
     ping.start(ctx.currentTime);
     ping.stop(ctx.currentTime + 1.4);
@@ -26,7 +26,7 @@ export function playGoodOmen() {
       osc.frequency.value = freq;
       const t = ctx.currentTime + i * 0.07;
       gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(0.11, t + 0.03);
+      gain.gain.linearRampToValueAtTime(0.06, t + 0.03);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 3.0);
       osc.start(t);
       osc.stop(t + 3.0);
@@ -40,7 +40,7 @@ export function playGoodOmen() {
     warm.type = "sine";
     warm.frequency.value = 392; // G4
     warmGain.gain.setValueAtTime(0, ctx.currentTime);
-    warmGain.gain.linearRampToValueAtTime(0.07, ctx.currentTime + 0.1);
+    warmGain.gain.linearRampToValueAtTime(0.04, ctx.currentTime + 0.1);
     warmGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.2);
     warm.start(ctx.currentTime);
     warm.stop(ctx.currentTime + 2.2);
