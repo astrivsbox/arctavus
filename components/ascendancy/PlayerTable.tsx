@@ -79,13 +79,25 @@ export default function PlayerTable({ state }: { state: GameState }) {
               borderRadius: "50%",
               border: "1px solid #1e1810",
             }} />
-            {/* Center glyph */}
+            {/* Center glyph — half sun / half moon */}
             <div style={{
               position: "absolute", inset: 0,
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 18, color: "#2a2010",
             }}>
-              ⚜
+              <svg viewBox="0 0 32 32" width="26" height="26">
+                {/* Left semicircle: moon */}
+                <path d="M 16 3 A 13 13 0 0 0 16 29 Z" fill="#35304e" />
+                {/* Right semicircle: sun */}
+                <path d="M 16 3 A 13 13 0 0 1 16 29 Z" fill="#4a3a14" />
+                {/* Vertical divider */}
+                <line x1="16" y1="3" x2="16" y2="29" stroke="#0e0c08" strokeWidth="1" />
+                {/* Moon crescent detail */}
+                <path d="M 13 7 A 8 8 0 0 1 13 25 A 5.5 5.5 0 0 0 13 7" fill="#252038" />
+                {/* Sun rays — right side only */}
+                <line x1="29" y1="16" x2="26" y2="16" stroke="#6a5520" strokeWidth="1.5" strokeLinecap="round" />
+                <line x1="25.2" y1="7.8" x2="23.1" y2="9.9" stroke="#6a5520" strokeWidth="1.5" strokeLinecap="round" />
+                <line x1="25.2" y1="24.2" x2="23.1" y2="22.1" stroke="#6a5520" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
             </div>
           </div>
 
