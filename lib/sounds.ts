@@ -4,26 +4,48 @@ export function playGoodOmen() {
   try {
     const ctx = new AudioContext();
 
-    // Bright ascending arpeggio: C5 → E5 → G5 → C6
-    [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+    // Sharp sword ping — high crisp transient
+    const ping = ctx.createOscillator();
+    const pingGain = ctx.createGain();
+    ping.connect(pingGain);
+    pingGain.connect(ctx.destination);
+    ping.type = "sine";
+    ping.frequency.value = 2200;
+    pingGain.gain.setValueAtTime(0.18, ctx.currentTime);
+    pingGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.4);
+    ping.start(ctx.currentTime);
+    ping.stop(ctx.currentTime + 1.4);
+
+    // Heavenly shimmer — staggered high harmonics fading slowly
+    [1047, 1319, 1568, 2093].forEach((freq, i) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.connect(gain);
       gain.connect(ctx.destination);
-
       osc.type = "sine";
       osc.frequency.value = freq;
-
-      const t = ctx.currentTime + i * 0.13;
+      const t = ctx.currentTime + i * 0.07;
       gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(0.22, t + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
-
+      gain.gain.linearRampToValueAtTime(0.11, t + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 3.0);
       osc.start(t);
-      osc.stop(t + 0.9);
+      osc.stop(t + 3.0);
     });
 
-    setTimeout(() => ctx.close(), 2500);
+    // Warm body underneath to lift it
+    const warm = ctx.createOscillator();
+    const warmGain = ctx.createGain();
+    warm.connect(warmGain);
+    warmGain.connect(ctx.destination);
+    warm.type = "sine";
+    warm.frequency.value = 392; // G4
+    warmGain.gain.setValueAtTime(0, ctx.currentTime);
+    warmGain.gain.linearRampToValueAtTime(0.07, ctx.currentTime + 0.1);
+    warmGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.2);
+    warm.start(ctx.currentTime);
+    warm.stop(ctx.currentTime + 2.2);
+
+    setTimeout(() => ctx.close(), 4500);
   } catch {
     // Browser blocked audio — no-op
   }
@@ -33,32 +55,46 @@ export function playBadOmen() {
   try {
     const ctx = new AudioContext();
 
-    // Deep bass rumble that drops in pitch
-    const bass = ctx.createOscillator();
-    const bassGain = ctx.createGain();
-    bass.connect(bassGain);
-    bassGain.connect(ctx.destination);
-    bass.type = "sawtooth";
-    bass.frequency.setValueAtTime(95, ctx.currentTime);
-    bass.frequency.linearRampToValueAtTime(28, ctx.currentTime + 2.2);
-    bassGain.gain.setValueAtTime(0, ctx.currentTime);
-    bassGain.gain.linearRampToValueAtTime(0.45, ctx.currentTime + 0.04);
-    bassGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 2.2);
-    bass.start(ctx.currentTime);
-    bass.stop(ctx.currentTime + 2.2);
+    // Heavy slam — fast attack, pitch drops like something massive hitting stone
+    const slam = ctx.createOscillator();
+    const slamGain = ctx.createGain();
+    slam.connect(slamGain);
+    slamGain.connect(ctx.destination);
+    slam.type = "sine";
+    slam.frequency.setValueAtTime(110, ctx.currentTime);
+    slam.frequency.exponentialRampToValueAtTime(28, ctx.currentTime + 0.55);
+    slamGain.gain.setValueAtTime(0, ctx.currentTime);
+    slamGain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.008); // brutal fast attack
+    slamGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+    slam.start(ctx.currentTime);
+    slam.stop(ctx.currentTime + 0.6);
 
-    // Sharp metallic sting at the start
-    const sting = ctx.createOscillator();
-    const stingGain = ctx.createGain();
-    sting.connect(stingGain);
-    stingGain.connect(ctx.destination);
-    sting.type = "square";
-    sting.frequency.setValueAtTime(240, ctx.currentTime);
-    sting.frequency.exponentialRampToValueAtTime(48, ctx.currentTime + 0.45);
-    stingGain.gain.setValueAtTime(0.38, ctx.currentTime);
-    stingGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.45);
-    sting.start(ctx.currentTime);
-    sting.stop(ctx.currentTime + 0.45);
+    // Low sub rumble that decays — the aftershock
+    const rumble = ctx.createOscillator();
+    const rumbleGain = ctx.createGain();
+    rumble.connect(rumbleGain);
+    rumbleGain.connect(ctx.destination);
+    rumble.type = "sawtooth";
+    rumble.frequency.setValueAtTime(40, ctx.currentTime + 0.05);
+    rumble.frequency.linearRampToValueAtTime(18, ctx.currentTime + 2.2);
+    rumbleGain.gain.setValueAtTime(0, ctx.currentTime);
+    rumbleGain.gain.linearRampToValueAtTime(0.16, ctx.currentTime + 0.12);
+    rumbleGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 2.2);
+    rumble.start(ctx.currentTime);
+    rumble.stop(ctx.currentTime + 2.2);
+
+    // Brief metallic clang — the iron texture
+    const clang = ctx.createOscillator();
+    const clangGain = ctx.createGain();
+    clang.connect(clangGain);
+    clangGain.connect(ctx.destination);
+    clang.type = "square";
+    clang.frequency.setValueAtTime(160, ctx.currentTime);
+    clang.frequency.linearRampToValueAtTime(55, ctx.currentTime + 0.3);
+    clangGain.gain.setValueAtTime(0.13, ctx.currentTime);
+    clangGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.3);
+    clang.start(ctx.currentTime);
+    clang.stop(ctx.currentTime + 0.3);
 
     setTimeout(() => ctx.close(), 3500);
   } catch {
