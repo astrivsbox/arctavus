@@ -13,6 +13,7 @@ import GameOver from "./GameOver";
 import OmenBoard from "./OmenBoard";
 import RoleCard from "./RoleCard";
 import MusicPlayer from "./MusicPlayer";
+import Link from "next/link";
 import AffiliationButton from "./AffiliationButton";
 import ZealotLegend from "./ZealotLegend";
 import PlayerTable from "./PlayerTable";
@@ -184,7 +185,9 @@ export default function GameClient() {
       <div className="max-w-2xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h1 className="font-black text-2xl tracking-tight" style={{ color: "#c8a96e" }}>ASCENDANCY</h1>
+          <Link href="/" className="font-black text-2xl tracking-tight hover:opacity-70 transition-opacity" style={{ color: "#c8a96e" }}>
+            ASCENDANCY
+          </Link>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <MusicPlayer playing={state.phase !== "lobby" && state.phase !== "game_over"} />
