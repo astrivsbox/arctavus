@@ -18,14 +18,14 @@ export default function Home() {
       style={{ background: "#0a0a0a" }}
     >
       <div className="w-full max-w-2xl">
-        <div className="mb-10">
+        <div className="mb-10 flex justify-center">
           <Image
             src="/arctavus-logo.png"
             alt="Arctavus Entertainment"
-            width={420}
-            height={175}
+            width={280}
+            height={117}
             priority
-            style={{ filter: "invert(1)", width: "100%", maxWidth: 420, height: "auto" }}
+            style={{ filter: "invert(1)", width: "100%", maxWidth: 280, height: "auto" }}
           />
         </div>
 
