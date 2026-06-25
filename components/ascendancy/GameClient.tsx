@@ -206,6 +206,11 @@ export default function GameClient() {
           <PlayerTable state={state} />
         )}
 
+        {/* Zealot ally legend — inline so it never overlaps content */}
+        {priv && state.phase !== "lobby" && state.phase !== "game_over" && (
+          <ZealotLegend priv={priv} />
+        )}
+
         {error && (
           <p className="text-sm font-bold mb-4 text-center" style={{ color: "#c84a3e" }}>{error}</p>
         )}
@@ -231,8 +236,6 @@ export default function GameClient() {
         )}
       </div>
 
-      {/* Persistent zealot ally legend — bottom-right corner, only for Zealots/Prophet */}
-      {priv && <ZealotLegend priv={priv} />}
     </div>
   );
 }

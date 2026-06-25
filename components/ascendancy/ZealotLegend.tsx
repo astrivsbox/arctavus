@@ -5,12 +5,10 @@ export default function ZealotLegend({ priv }: { priv: PrivateInfo }) {
 
   return (
     <div
-      className="fixed bottom-6 right-4 z-30 p-4 rounded"
+      className="rounded p-4 mb-4"
       style={{
         background: "#0f0e0c",
         border: "1px solid #3a1a1a",
-        boxShadow: "0 0 30px rgba(0,0,0,0.7)",
-        minWidth: "180px",
       }}
     >
       <p
