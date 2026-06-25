@@ -1,7 +1,22 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import type { GameState, PrivateInfo } from "@/lib/types";
 
 export default function GameOver({ state, myId, priv }: { state: GameState; myId: string; priv: PrivateInfo | null }) {
   const won = state.winner === "wardens" ? priv?.role === "warden" : priv?.role === "zealot" || priv?.role === "prophet";
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    const src = state.winner === "wardens" ? "/good-omen-victory.wav" : "/bad-omen-victory.wav";
+    audioRef.current = new Audio(src);
+    audioRef.current.volume = 0.6;
+    audioRef.current.play().catch(() => {});
+    return () => {
+      audioRef.current?.pause();
+      audioRef.current = null;
+    };
+  }, [state.winner]);
 
   return (
     <div className="text-center py-8">

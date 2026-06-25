@@ -186,7 +186,7 @@ export default function GameClient() {
           <h1 className="font-black text-2xl tracking-tight" style={{ color: "#c8a96e" }}>ASCENDANCY</h1>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
-              <MusicPlayer playing={state.phase !== "lobby"} />
+              <MusicPlayer playing={state.phase !== "lobby" && state.phase !== "game_over"} />
               {priv && <AffiliationButton priv={priv} />}
               <div className="text-xs font-black tracking-widest" style={{ color: "#3a2a1a" }}>
                 {state.code}
