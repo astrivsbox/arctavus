@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { getSocket } from "@/lib/socket";
 import type { GameState, PrivateInfo, OmenCard } from "@/lib/types";
 import Lobby from "./Lobby";
@@ -12,6 +12,8 @@ import GameOver from "./GameOver";
 import OmenBoard from "./OmenBoard";
 import RoleCard from "./RoleCard";
 import MusicPlayer from "./MusicPlayer";
+import AffiliationButton from "./AffiliationButton";
+import ZealotLegend from "./ZealotLegend";
 
 export default function GameClient() {
   const [state, setState] = useState<GameState | null>(null);
@@ -23,6 +25,7 @@ export default function GameClient() {
   const [error, setError] = useState("");
   const [notification, setNotification] = useState("");
   const [showRole, setShowRole] = useState(false);
+  const roleRevealedRef = useRef(false);
 
   const notify = useCallback((msg: string) => {
     setNotification(msg);
@@ -38,7 +41,11 @@ export default function GameClient() {
     socket.on("game_state", (s: GameState) => setState(s));
     socket.on("private_info", (p: PrivateInfo) => {
       setPriv(p);
-      setShowRole(true);
+      // Only pop up the role card once, on the very first assignment at game start
+      if (!roleRevealedRef.current) {
+        setShowRole(true);
+        roleRevealedRef.current = true;
+      }
     });
     socket.on("room_created", ({ code }: { code: string }) => {
       setJoined(true);
@@ -159,20 +166,12 @@ export default function GameClient() {
           <h1 className="font-black text-2xl tracking-tight" style={{ color: "#c8a96e" }}>ASCENDANCY</h1>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
-            <MusicPlayer playing={state.phase !== "lobby"} />
-            {priv && (
-              <button
-                onClick={() => setShowRole(true)}
-                className="text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded"
-                style={{ border: "1px solid #3a2a1a", color: "#8a7a6a" }}
-              >
-                My Role
-              </button>
-            )}
-            <div className="text-xs font-black tracking-widest" style={{ color: "#3a2a1a" }}>
-              {state.code}
+              <MusicPlayer playing={state.phase !== "lobby"} />
+              {priv && <AffiliationButton priv={priv} />}
+              <div className="text-xs font-black tracking-widest" style={{ color: "#3a2a1a" }}>
+                {state.code}
+              </div>
             </div>
-          </div>
           </div>
         </div>
 
@@ -205,6 +204,9 @@ export default function GameClient() {
           <GameOver state={state} myId={myId} priv={priv} />
         )}
       </div>
+
+      {/* Persistent zealot ally legend — bottom-right corner, only for Zealots/Prophet */}
+      {priv && <ZealotLegend priv={priv} />}
     </div>
   );
 }
